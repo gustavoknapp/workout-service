@@ -23,4 +23,14 @@ public class WorkoutService {
             })
         .toList();
   }
+
+  public WorkoutDto getWorkout(long id) {
+    Workout workout = Workout.findById(id);
+
+    return WorkoutDto.from(
+        workout,
+        WorkoutVariation.find(
+                "select wv from WorkoutVariation wv where wv.workout.id = ?1", workout.id)
+            .list());
+  }
 }
